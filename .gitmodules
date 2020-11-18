@@ -1,0 +1,3 @@
+[submodule "reid-strong-baseline"]
+	path = reid-strong-baseline
+	url = https://github.com/michuanhaohao/reid-strong-baseline.git

@@ -11,9 +11,11 @@ SORTS and SORTS+RReID are based on [SORT](https://github.com/abewley/sort), copi
 ## Instructions
 - `git clone https://github.com/ahrnbom/sorts`
 - `cd sorts`
+- `git submodule update --init --recursive`
 - `./run_singularity.sh build`
 - `./run_singularity.sh bash`
 
 Once you are inside a `bash` shell in the Singularity container, you can run e.g. 
+- `./install.sh` (this only needs to be done once)
 - `python demo.py PATH/TO/VIDEO/FILE.mp4`
 
