@@ -36,7 +36,7 @@ def apply_mask_opaque(im, mask, color):
 kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(4,4))
 
 """ Draw a mask on an image with 50% transparency and a border and centered text """
-def draw_mask(im, mask, color, text, is_other=False):
+def draw_mask(im, mask, color, text, is_other=False, extra_text_scale=1.0):
     np_color = np.array(color, dtype=np.uint8)
     im = apply_mask_50(im, mask, np_color)
     k = kernel
@@ -58,6 +58,7 @@ def draw_mask(im, mask, color, text, is_other=False):
     text_scale = 0.75*im.shape[0]/480.0
     if text_scale < 1.0:
         text_scale = 1.0
+    text_scale *= extra_text_scale
     text_w = cv2.getTextSize(text, font, text_scale, 1)[0][0]
     line = cv2.LINE_AA
     cv2.putText(im, text, (x - text_w//2,y), font, text_scale, (0,0,0), 3, line)

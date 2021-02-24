@@ -71,6 +71,10 @@ class MaskRCNN:
                     out_folder.mkdir()
             else:
                 out_folder = out_path
+        else:
+            # in case we have multiple classes
+            out_pmasks = dict()
+            out_boxes = dict()
         
         instances = outputs["instances"].to("cpu")
         pmasks_orig = instances._fields['pred_masks'].numpy()
@@ -103,7 +107,8 @@ class MaskRCNN:
                 if len(classes) == 1:
                     return pmasks, boxes    
                 else:
-                    raise ValueError("Direct mode with multiple classes currently not supported")
+                    out_pmasks[current_class] = pmasks
+                    out_boxes[current_class] = boxes
             else:
                 if pmasks.shape[0] > 0:
                     text = full_format.encode(pmasks)
@@ -115,7 +120,9 @@ class MaskRCNN:
                 
                 boxes_path = output.with_suffix('.boxes')
                 np.savetxt(boxes_path, boxes, delimiter=',', fmt='%5.2f')
-        
+                
+        if direct:
+            return out_pmasks, out_boxes
 
 class CenterNetLite(MaskRCNN):
     def __init__(self, config, weights):
