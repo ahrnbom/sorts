@@ -1,6 +1,6 @@
 """
         SORTS: A Simple, Online and Realtime Tracker with Segmentation   
-        By Martin Ahrnbom martin.ahrnbom@math.lth.se
+        By Martin Ahrnbom, martin.ahrnbom@math.lth.se
         
         based on 
         SORT: A Simple, Online and Realtime Tracker
