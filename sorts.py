@@ -167,6 +167,7 @@ class KalmanBoxTracker(object):
         self.hit_streak = 0
         self.age = 0
         self.spawn_time = frame_no
+        self.speed = 0 # pixels per frame
         
         self.mask = mask
         self.orig_mask = mask
@@ -178,6 +179,7 @@ class KalmanBoxTracker(object):
         if settings.use_reid:
             self.reid_masks = dict()
             self.reid_vector = None
+            self.reid_frameno = None
 
     def update(self, bbox, mask, curr_frame_no, settings, timing=None):
         """
@@ -185,8 +187,23 @@ class KalmanBoxTracker(object):
         """
         if settings.time:
             timing.start('track_update')
+        
+        # Update speed
+        if self.history:
+            prev = self.history[-1]
+            prev_x = (prev[0] + prev[2])/2
+            prev_y = (prev[1] + prev[3])/2
+            
+            curr_x = (bbox[0] + bbox[2])/2
+            curr_y = (bbox[1] + bbox[3])/2
+            
+            distance = np.sqrt( (curr_x - prev_x)**2 + (curr_y - prev_y)**2 )
+            curr_speed = distance / self.time_since_update
+            
+            self.speed = 0.9*self.speed + 0.1*curr_speed
+            
         self.time_since_update = 0
-        self.active_now = True
+        self.active_now = True    
         
         # Note: SORT actually clears the history here for some reason
         self.history.append(bbox)
@@ -231,7 +248,25 @@ class KalmanBoxTracker(object):
                     if success:
                         best = settings.reid_thresh
                         best_i = None
-                        for i, m in enumerate(self.sorts.reid_list):                    
+                        for i, m in enumerate(self.sorts.reid_list):  
+                            if settings.reid_spatial is not None:
+                                # Check if track is spatially feasible
+                                reid_age = curr_frame_no - m.reid_frameno
+                                possible_distance = reid_age * m.speed * settings.reid_spatial
+                                
+                                old_pos = m.history[-1]
+                                old_x = (old_pos[0] + old_pos[2])/2
+                                old_y = (old_pos[1] + old_pos[3])/2
+                                
+                                new_x = (bbox[0] + bbox[2])/2
+                                new_y = (bbox[1] + bbox[3])/2
+                                
+                                distance = np.sqrt( (old_x-new_x)**2 + (old_y-new_y)**2 )
+                                
+                                if distance >= possible_distance:
+                                    # Ignore this ReID possibility
+                                    continue
+                        
                             similarity = vector_similarity(v, m.reid_vector)
                             if similarity >= best:
                                 best = similarity
@@ -411,6 +446,7 @@ class Settings(dict):
         self['reid_shortest'] = 3.3
         self['reid_lookback'] = 0.17
         self['reid_minheight'] = 0.05
+        self['reid_spatial'] = None # None - do not apply any spatial limit, otherwise set to a numerical value like 1.2
         
         self['multi'] = True
         self['dataset'] = 'MOTS'
@@ -601,7 +637,6 @@ class SORTS(object):
         for i in unmatched_dets:
             trk = KalmanBoxTracker(dets[i,:], masks[i,::], self.frame_count, self, self.settings)
             
-
             if self.frame_count == 1:
                 if self.settings.time:
                     timing.stop('birth')

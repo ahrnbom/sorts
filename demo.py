@@ -53,6 +53,7 @@ def main(video_file=None):
     s.reid_shortest = 0.16594656988159678
     s.reid_lookback = 0.16526851056957566
     s.reid_minheight = 0.07397759436969294
+    s.reid_spatial = None # on videos with moving cameras, spatial limitations on ReID do not work very well
     
     s.explicit_name = 'direct_video'
     
