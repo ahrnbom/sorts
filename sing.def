@@ -15,7 +15,7 @@ From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
     python3 -m pip install -r /sort/requirements.txt
     python3 -m pip install cython && python3 -m pip install -U 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI'
     python3 -m pip install detectron2 -f \
-        https://dl.fbaipublicfiles.com/detectron2/wheels/cu102/torch1.6/index.html
+        https://dl.fbaipublicfiles.com/detectron2/wheels/cu111/torch1.8/index.html
     echo 'alias prof="kernprof -l -v"' >> /etc/bash.bashrc
     echo 'alias python="python3"' >> /etc/bash.bashrc
     
