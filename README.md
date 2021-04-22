@@ -1,6 +1,6 @@
 # SORTS and SORTS+RReID
 
-This repository contains the source code for the paper *Real-Time and Online Segmentation Multi-Target Tracking with Track Revival Re-Identification* which will be published at VISAPP 2021 (link to paper will appear here after publication, unless forgotten).
+This repository contains the source code for the paper *Real-Time and Online Segmentation Multi-Target Tracking with Track Revival Re-Identification* which was published at VISAPP 2021. The paper is available [here](https://www.scitepress.org/Link.aspx?doi=10.5220/0010190907770784).
 
 SORTS and SORTS+RReID are based on [SORT](https://github.com/abewley/sort), copied at 2020-05-27.
 
