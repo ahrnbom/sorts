@@ -5,7 +5,7 @@ This repository contains the source code for the paper *Real-Time and Online Seg
 SORTS and SORTS+RReID are based on [SORT](https://github.com/abewley/sort), copied at 2020-05-27.
 
 ## Requirements
-- A modern Linux PC with an NVidia GPU with appropriate drivers
+- A modern Linux PC with an NVidia GPU with appropriate drivers. Tested with CUDA 11.4. 
 - [Singularity](https://sylabs.io/docs/)
 
 ## Instructions
@@ -16,6 +16,5 @@ SORTS and SORTS+RReID are based on [SORT](https://github.com/abewley/sort), copi
 - `./run_singularity.sh bash`
 
 Once you are inside a `bash` shell in the Singularity container, you can run e.g. 
-- `./install.sh` (this only needs to be done once)
+- `./setup.sh` (this only needs to be done once)
 - `python demo.py PATH/TO/VIDEO/FILE.mp4`
-
