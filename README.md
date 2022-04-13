@@ -14,6 +14,7 @@ SORTS and SORTS+RReID are based on [SORT](https://github.com/abewley/sort), copi
 - `git submodule update --init --recursive`
 - `./run_singularity.sh build`
 - `./run_singularity.sh bash`
+- Download and extract [this zip file](https://lunduniversityo365-my.sharepoint.com/:u:/g/personal/ma7467ah_lu_se/EVwOThgpFZpCqW9SBRjP1CYB89TseqgvLL-tdc5SJJOeIA?e=tXv6I9) and place the contents inside the `sorts` folder
 
 Once you are inside a `bash` shell in the Singularity container, you can run e.g. 
 - `./setup.sh` (this only needs to be done once)
